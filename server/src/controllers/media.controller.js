@@ -4,7 +4,7 @@ import userModel from "../models/user.model.js";
 import reviewModel from "../models/review.model.js"
 import tmdbApi from "../tmdb/tmdb.api.js";
 import tokenMiddlerware from "../middlewares/token.middleware.js"
-import favoriteModel from "../models/favorite.model";
+import favoriteModel from "../models/favorite.model.js";
 
 const getlist = async(req, res) =>{
     try{
