@@ -3,22 +3,18 @@ const uiConfigs ={
         gradienBgImage: {
             dark:{
                 backgroundImage: "Linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)"
-
             },
             light:{
                 backgroundImage: "Linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0)"
-
             },
         },
 
         HorizontalGradienBgImage: {
             dark:{
                 backgroundImage: "Linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)"
-
             },
             light:{
                 backgroundImage: "Linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0)"
-
             }
         },
         typoLines: ( lines, textAlign) =>({
@@ -38,10 +34,8 @@ const uiConfigs ={
             backgroundSize:"cover",
             backgroundPosition: "center",
             backgroundColor:"darkgrey",
-            backgroundImage: 'url(${imgPath})'
-        
+            backgroundImage: `url(${imgPath})`
         })
-
     },
     size:{
         sidebarWidth: "300px",

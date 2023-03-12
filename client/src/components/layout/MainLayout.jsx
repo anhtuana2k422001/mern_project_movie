@@ -33,7 +33,7 @@ const MainLayout = () => {
         </Box>
 
         {/* footer*/}
-        <Footer />
+        <Footer/>
         {/* footer*/}
     </>
   );
