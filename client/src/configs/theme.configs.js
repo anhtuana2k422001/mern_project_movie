@@ -38,7 +38,7 @@ const themeConfigs ={
         return createTheme({
             palette:{
                 mode, 
-                ... customPalette
+                ...customPalette
 
             },
             components: {
