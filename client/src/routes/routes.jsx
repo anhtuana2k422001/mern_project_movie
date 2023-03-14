@@ -1,17 +1,17 @@
 import HomePage from "../page/HomePage";
 import PersonDetail from "../page/PersonDetail";
 import FavoriteList from "../page/FavoriteList";
-import MediaDetail from "../page/MediaDetail"
-import MediaList from "../page/MediaList"
-import MediaSearch from  "../page/MediaSearch"
-import PasswordUpdate from "../page/PasswordUpdate"
-import ReviewList from "../page/ReviewList"
-import ProtectedPage from "../components/common/ProtectedPage"
+import MediaDetail from "../page/MediaDetail";
+import MediaList from "../page/MediaList";
+import MediaSearch from  "../page/MediaSearch";
+import PasswordUpdate from "../page/PasswordUpdate";
+import ReviewList from "../page/ReviewList";
+import ProtectedPage from "../components/common/ProtectedPage";
 
 export const routesGen = {
     home: "/",
     mediaList: (type) => `/${type}`,
-    mediaDetail: (type, id) => `/${type}/${id}}`,
+    mediaDetail: (type, id) => `/${type}/${id}`,
     mediaSearch: "/search",
     person: (id) => `/person/${id}`,
     favoriteList: "/favorites",

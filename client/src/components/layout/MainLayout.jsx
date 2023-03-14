@@ -1,40 +1,40 @@
 import { Box } from "@mui/material"
 import { Outlet } from "react-router-dom"
 import GlobalLoading from "../common/GlobalLoading"
-import Footer from "../common/Footer";
 import Topbar from "../common/Topbar";
+import Footer from "../common/Footer";
 
 // Tạo giao diện chính cho trang web
 const MainLayout = () => {
   return (
     <>
-        {/* Global Loading */}
-        <GlobalLoading/>
-        {/* Global Loading */}
+      {/* Global Loading */}
+      <GlobalLoading />
+      {/* Global Loading */}
 
-        {/* login modal */}
-        {/* login modal  */}
-        <Box display="flex" minHeight="100vh" >
-            {/* header  */}
-            <Topbar/>
-            {/* header  */}
+      {/* login modal */}
+      {/* login modal  */}
 
-            {/* main  */}
-                <Box
-                    component = "main"
-                    flexGrow = {1}
-                    overflow = "hidden"
-                    minHeight = "100vh"
-                >
-                <Outlet/>
+      <Box display="flex" minHeight="100vh">
+        {/* header  */}
+        <Topbar />
+        {/* header  */}
 
-                </Box>
-            {/* main  */}
+        {/* main */}
+        <Box
+          component="main"
+          flexGrow={1}
+          overflow="hidden"
+          minHeight="100vh"
+        >
+          <Outlet />
         </Box>
+        {/* main */}
+      </Box>
 
-        {/* footer*/}
-        <Footer/>
-        {/* footer*/}
+      {/* footer */}
+      <Footer />
+      {/* footer */}
     </>
   );
 };
