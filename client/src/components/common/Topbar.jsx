@@ -11,6 +11,7 @@ import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import { setThemeMode } from "../../redux/features/themeModeSlice";
 import Logo from "./Logo";
 import UserMenu from './UserMenu';
+import Sidebar from './Sidebar';
 
 const ScrollAppBar = ({ children, window }) => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -43,10 +44,12 @@ const Topbar = () => {
     dispatch(setThemeMode(theme));
   };
 
+
   const tonggleSidebar = () => setsideBarOpen(!sideBarOpen);
 
   return (
     <>
+    <Sidebar  open ={sideBarOpen} tonggleSidebar= {tonggleSidebar}/>
       <ScrollAppBar>
         <AppBar elevation={0} sx={{ zIndex: 9999 }}>
           <Toolbar sx={{ alignItems: "center", justifyContent: "space-between" }}>
@@ -84,6 +87,7 @@ const Topbar = () => {
                 </Button>
               ))}
               <IconButton
+          
                 sx={{ color: "inherit" }}
                 onClick={onSwithTheme}
               >
