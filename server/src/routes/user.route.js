@@ -9,58 +9,59 @@ import tokenMiddleware from "../middlewares/token.middleware.js";
 const router = express.Router();
 
 router.post(
-  "/signup",
-  body("username")
-    .exists().withMessage("username is required")
-    .isLength({ min: 8 }).withMessage("username minimum 8 characters")
+    "/signup",
+    body("username")
+    .exists().withMessage("Tên người dùng là bắt buộc")
+    .isLength({min: 8}).withMessage("Tên người dùng tối thiểu 8 ký tự")
     .custom(async value => {
-      const user = await userModel.findOne({ username: value });
-      if (user) return Promise.reject("username already used");
+        const user = await userModel.findOne({username: value});
+        if(user) return Promise.reject("Tên người dùng đã được sử dụng");
     }),
-  body("password")
-    .exists().withMessage("password is required")
-    .isLength({ min: 8 }).withMessage("password minimum 8 characters"),
-  body("confirmPassword")
-    .exists().withMessage("confirmPassword is required")
-    .isLength({ min: 8 }).withMessage("confirmPassword minimum 8 characters")
-    .custom((value, { req }) => {
-      if (value !== req.body.password) throw new Error("confirmPassword not match");
-      return true;
+    body("password")
+    .exists().withMessage("Mật khẩu là bắt buộc")
+    .isLength({min: 8}).withMessage("Mật khẩu tối thiểu 8 ký tự"),
+    body("confirmPassword")
+    .exists().withMessage("Xác nhận mật khẩu là bắt buộc")
+    .isLength({min: 8}).withMessage("Xác nhậnMật khẩu tối thiểu 8 ký tự")
+    .custom((value, {req}) => {
+        if(value !== req.body.password) throw new Error("Mật khẩu không trùng khớp");
+        return true;
     }),
-  body("displayName")
-    .exists().withMessage("displayName is required")
-    .isLength({ min: 8 }).withMessage("displayName minimum 8 characters"),
-  requestHandler.validate,
-  userController.signup
-);
+    body("displayName")
+    .exists().withMessage("Tên hiển thị là bắt buộc")
+    .isLength({min: 8}).withMessage("Tên hiện thị tối thiểu 8 ký tự"),
+    requestHandler.validate,
+    userController.signup
+ );
 
-router.post(
-  "/signin",
-  body("username")
-    .exists().withMessage("username is required")
-    .isLength({ min: 8 }).withMessage("username minimum 8 characters"),
-  body("password")
-    .exists().withMessage("password is required")
-    .isLength({ min: 8 }).withMessage("password minimum 8 characters"),
-  requestHandler.validate,
-  userController.signin
+//  Điều hướng đăng nhâp 
+ router.post(
+    "/signin",
+    body("username")
+    .exists().withMessage("Tên người dùng là bắt buộc")
+    .isLength({min: 8}).withMessage("Tên người dùng tối thiểu 8 ký tự"),
+    body("password")
+    .exists().withMessage("Mật khẩu là bắt buộc")
+    .isLength({min: 8}).withMessage("Mật khẩu tối thiểu 8 ký tự"),
+    requestHandler.validate,
+    userController.signin
 );
 
 router.put(
-  "/update-password",
-  tokenMiddleware.auth,
-  body("password")
-    .exists().withMessage("password is required")
-    .isLength({ min: 8 }).withMessage("password minimum 8 characters"),
-  body("newPassword")
-    .exists().withMessage("newPassword is required")
-    .isLength({ min: 8 }).withMessage("newPassword minimum 8 characters"),
-  body("confirmNewPassword")
-    .exists().withMessage("confirmNewPassword is required")
-    .isLength({ min: 8 }).withMessage("confirmNewPassword minimum 8 characters")
-    .custom((value, { req }) => {
-      if (value !== req.body.newPassword) throw new Error("confirmNewPassword not match");
-      return true;
+    "/update-password",
+    tokenMiddleware.auth,
+    body("username")
+    .exists().withMessage("Mật khẩu là bắt buộc")
+    .isLength({min: 8}).withMessage("tTên người dùng tối thiểu 8 ký tự"),
+    body("newPassword")
+    .exists().withMessage("Mật khẩu mới là bắt buộc")
+    .isLength({min: 8}).withMessage("Mật khẩu mới tối thiểu 8 ký tự"),
+    body("confirmNewPassword")
+    .exists().withMessage("Xác nhận mật khẩu mới là bắt buộc")
+    .isLength({min: 8}).withMessage("Xác nhận nật khẩu mới tối thiểu 8 ký tự")
+    .custom((value, {req}) => {
+        if(value !== req.body.newPassword) throw new Error("Mật khẩu không trùng khớp");
+        return true;
     }),
   requestHandler.validate,
   userController.updatePassword
@@ -79,22 +80,22 @@ router.get(
 );
 
 router.post(
-  "/favorites",
-  tokenMiddleware.auth,
-  body("mediaType")
-    .exists().withMessage("mediaType is required")
-    .custom(type => ["movie", "tv"].includes(type)).withMessage("mediaType invalid"),
-  body("mediaId")
-    .exists().withMessage("mediaId is required")
-    .isLength({ min: 1 }).withMessage("mediaId can not be empty"),
-  body("mediaTitle")
-    .exists().withMessage("mediaTitle is required"),
-  body("mediaPoster")
-    .exists().withMessage("mediaPoster is required"),
-  body("mediaRate")
-    .exists().withMessage("mediaRate is required"),
-  requestHandler.validate,
-  favoriteController.addFavorite
+    "/favorites",
+    tokenMiddleware.auth,
+    body("mediatype")
+        .exists().withMessage("mediatype là bắt buộc")
+        .custom(type => ["movie", "tv"].includes(type)).withMessage("Loại phương tiện không hợp lệ"),
+        body("mediaId")
+        .exists().withMessage("mediaId là bắt buộc")
+        .isLength({min: 1}).withMessage("mediaId không thể để trống"),
+        body("mediaTitle")
+        .exists().withMessage("mediaTitle là bắt buộc"),
+        body("mediaPoster")
+        .exists().withMessage("mediaPoster là bắt buộc"),
+        body("mediaRate")
+        .exists().withMessage("mediaRate là bắt buộc"),
+        requestHandler.validate,
+        favoriteController.addFavorite            
 );
 
 router.delete(

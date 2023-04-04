@@ -71,7 +71,7 @@ const updatePassword = async (req, res) => {
 
     if (!user) return responseHandler.unauthorize(res);
 
-    if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
+    if(!user.validPassword(password)) return responseHandler.badrequest(res, "Sai mật khẩu");
 
     user.setPassword(newPassword);
 
