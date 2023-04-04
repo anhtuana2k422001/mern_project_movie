@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
   }
 }, modelOptions);
 
+//Mã hóa băm PBKDF2 với SHA512.
+
+//Thiết lập mật khẩu mới cho một đối tượng User 
 userSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(16).toString("hex");
 
@@ -36,6 +39,7 @@ userSchema.methods.setPassword = function (password) {
   ).toString("hex");
 };
 
+// kiểm tra tính hợp lệ của mật khẩu đã lưu trữ với mật khẩu người dùng cung cấp.
 userSchema.methods.validPassword = function (password) {
   const hash = crypto.pbkdf2Sync(
     password,
