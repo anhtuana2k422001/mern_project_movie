@@ -6,7 +6,7 @@ import Footer from "../common/Footer";
 import AuthModalModal from "../common/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import userApi from "../../api/modules/user.api";
 import favoriteApi from "../../api/modules/favorite.api";
 import { setListFavorites, setUser } from "../../redux/features/userSlice";
@@ -14,6 +14,7 @@ import { setListFavorites, setUser } from "../../redux/features/userSlice";
 // Tạo giao diện chính cho trang web
 const MainLayout = () => {
   const dispatch = useDispatch();
+  
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -22,8 +23,9 @@ const MainLayout = () => {
 
       if (response) dispatch(setUser(response));
       if (err) dispatch(setUser(null));
-  };
-  authUser();
+    };
+
+    authUser();
   }, [dispatch]);
 
   useEffect(() => {

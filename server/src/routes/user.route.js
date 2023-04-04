@@ -1,15 +1,13 @@
-import  express from "express"
-import {body} from "express-validator"
-import favoriteController from "../controllers/favorite.controller.js"
-import userController from "../controllers/user.controller.js"
-import requestHandler  from "../handlers/request.handler.js"
-import userModel from "../models/user.model.js"
-import tokenMiddleware from "../middlewares/token.middleware.js"
+import express from "express";
+import { body } from "express-validator";
+import favoriteController from "../controllers/favorite.controller.js";
+import userController from "../controllers/user.controller.js";
+import requestHandler from "../handlers/request.handler.js";
+import userModel from "../models/user.model.js";
+import tokenMiddleware from "../middlewares/token.middleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
-
-// Điều hướng đăng ký 
 router.post(
     "/signup",
     body("username")
@@ -65,20 +63,20 @@ router.put(
         if(value !== req.body.newPassword) throw new Error("Mật khẩu không trùng khớp");
         return true;
     }),
-    requestHandler.validate,
-    userController.updatePassword
+  requestHandler.validate,
+  userController.updatePassword
 );
 
 router.get(
-    "/info",
-    tokenMiddleware.auth,
-    userController.getInfo
-)
+  "/info",
+  tokenMiddleware.auth,
+  userController.getInfo
+);
 
 router.get(
-    "/favorites",
-    tokenMiddleware.auth,
-    favoriteController.getFavoritesOfUser
+  "/favorites",
+  tokenMiddleware.auth,
+  favoriteController.getFavoritesOfUser
 );
 
 router.post(
@@ -101,13 +99,9 @@ router.post(
 );
 
 router.delete(
-    "/favorites/:favoriteId",
-    tokenMiddleware.auth,
-    favoriteController.removeFavorite,
+  "/favorites/:favoriteId",
+  tokenMiddleware.auth,
+  favoriteController.removeFavorite
 );
 
-
 export default router;
-
-
-
