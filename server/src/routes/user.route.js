@@ -52,7 +52,7 @@ router.put(
     tokenMiddleware.auth,
     body("username")
     .exists().withMessage("Mật khẩu là bắt buộc")
-    .isLength({min: 8}).withMessage("tTên người dùng tối thiểu 8 ký tự"),
+    .isLength({min: 8}).withMessage("Tên người dùng tối thiểu 8 ký tự"),
     body("newPassword")
     .exists().withMessage("Mật khẩu mới là bắt buộc")
     .isLength({min: 8}).withMessage("Mật khẩu mới tối thiểu 8 ký tự"),
