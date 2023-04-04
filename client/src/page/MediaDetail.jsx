@@ -24,6 +24,7 @@ import { addFavorite, removeFavorite } from "../redux/features/userSlice";
 import FavoriteBorderOutlined from "@mui/icons-material/FavoriteBorderOutlined";
 
 import CastSlide from "../components/common/CastSlide";
+import MediaVideosSlide from "../components/common/MediaVideosSlide";
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
@@ -58,11 +59,11 @@ const MediaDetail = () => {
   }, [mediaType, mediaId, dispatch])
 
   const onFavoriteClick = async () => {
-    if(!user) return dispatch(setAuthModalOpen(true));
+    if (!user) return dispatch(setAuthModalOpen(true));
 
-    if(onRequest) return;
-    
-    if(isFavorite){
+    if (onRequest) return;
+
+    if (isFavorite) {
       onRemoveFavorite();
       return;
     }
@@ -81,8 +82,8 @@ const MediaDetail = () => {
 
     setOnRequest(false);
 
-    if(err) toast.error(err.message);
-    if(response) {
+    if (err) toast.error(err.message);
+    if (response) {
       dispatch(addFavorite(response));
       setIsFavorite(true);
       toast.success("Đã thêm bộ phim yêu thích!");
@@ -90,17 +91,17 @@ const MediaDetail = () => {
   };
 
   const onRemoveFavorite = async () => {
-    if(onRequest) return;
+    if (onRequest) return;
     setOnRequest(true);
 
     const favorite = listFavorites.find(e => e.mediaId.toString() === media.id.toString());
 
-    const { response, err } = await favoriteApi.remove({favoriteId: favorite.id});
+    const { response, err } = await favoriteApi.remove({ favoriteId: favorite.id });
 
     setOnRequest(false);
 
-    if(err) toast.error(err.message);
-    if(response){
+    if (err) toast.error(err.message);
+    if (response) {
       dispatch(removeFavorite(favorite));
       setIsFavorite(false);
       toast.success("Đã xóa bộ phim yêu thích");
@@ -157,12 +158,12 @@ const MediaDetail = () => {
                   {/* rate and genres */}
                   <Stack direction="row" spacing={1} alignItems="center">
                     {/* rate */}
-                      <CircularRate value={media.vote_average}/>
+                    <CircularRate value={media.vote_average} />
                     {/* rate */}
-                    <Divider orientation="vertical"/>
+                    <Divider orientation="vertical" />
                     {/* genres */}
-                    { genres.map((genre, index) => (
-                      <Chip 
+                    {genres.map((genre, index) => (
+                      <Chip
                         label={genre.name}
                         variant="filled"
                         color="primary"
@@ -176,7 +177,7 @@ const MediaDetail = () => {
                   {/* overviewe */}
                   <Typography
                     variant="body1"
-                    sx={{ ...uiConfigs.style.typoLines(5)}}
+                    sx={{ ...uiConfigs.style.typoLines(5) }}
                   >
                     {media.overview}
                   </Typography>
@@ -184,33 +185,33 @@ const MediaDetail = () => {
 
                   {/* buttons */}
                   <Stack direction="row" spacing={1}>
-                      <LoadingButton
-                        variant="text"
-                        sx={{
-                          width: "max-content",
-                          "& .MuiButton-starIcon": { marginRight: "0"}
-                        }}
-                        size="large"
-                        startIcon={isFavorite? <FavoriteIcon/> : <FavoriteBorderOutlined/>}
-                        loadingPosition="start"
-                        loading={onRequest}
-                        onClick={onFavoriteClick}
-                      />
-                      <Button
-                        variant="contained"
-                        sx={{ width: "max-content"}}
-                        size="large"
-                        startIcon={<PlayArrowIcon/>}
-                        onClick={() => videoRef.current.scrollIntoView()}
-                      >
-                        watch now
-                      </Button>
+                    <LoadingButton
+                      variant="text"
+                      sx={{
+                        width: "max-content",
+                        "& .MuiButton-starIcon": { marginRight: "0" }
+                      }}
+                      size="large"
+                      startIcon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderOutlined />}
+                      loadingPosition="start"
+                      loading={onRequest}
+                      onClick={onFavoriteClick}
+                    />
+                    <Button
+                      variant="contained"
+                      sx={{ width: "max-content" }}
+                      size="large"
+                      startIcon={<PlayArrowIcon />}
+                      onClick={() => videoRef.current.scrollIntoView()}
+                    >
+                      watch now
+                    </Button>
                   </Stack>
                   {/* buttons */}
 
                   {/* cast */}
                   <Container header="Cast">
-                        <CastSlide casts={media.credits.cast}/>
+                    <CastSlide casts={media.credits.cast} />
                   </Container>
                   {/* cast */}
                 </Stack>
@@ -219,6 +220,14 @@ const MediaDetail = () => {
             </Box>
           </Box>
           {/* media content */}
+
+          {/* media videos */}
+          <div ref={videoRef} style={{ paddingTop: "2rem" }}>
+            <Container header="Videos">
+              <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />
+            </Container>
+          </div>
+          {/* media videos */}
         </Box>
       </>
     ) : null
