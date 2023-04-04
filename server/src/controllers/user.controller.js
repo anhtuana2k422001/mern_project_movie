@@ -3,101 +3,101 @@ import jsonwebtoken from "jsonwebtoken";
 import responseHandler from "../handlers/response.handler.js";
 
 const signup = async (req, res) => {
-    try{
-        const { username, password, displayName} = req.body;
+  try {
+    const { username, password, displayName } = req.body;
 
-        const checkUser = await userModel.findOne({ username });
-        
-        if(checkUser) return responseHandler.badrequest(res, "Tên người dùng đã được sử dụng");
-        
-        const user = new userModel();
+    const checkUser = await userModel.findOne({ username });
 
-        user.displayName = displayName;
-        user.username = username;
-        user.setPassword(password);
+    if (checkUser) return responseHandler.badrequest(res, "username already used");
 
-        await user.save();
+    const user = new userModel();
 
-        const token = jsonwebtoken.sign(
-            { data: user.id},
-            process.env.TOKEN_SECRET,
-            { expiresIn: "24h"}
-        );
+    user.displayName = displayName;
+    user.username = username;
+    user.setPassword(password);
 
-        responseHandler.created(res, {
-            token,
-            ...user._doc,
-            id: user.id
-        });
-    }catch{
-        responseHandler.error(res);
-    }
+    await user.save();
+
+    const token = jsonwebtoken.sign(
+      { data: user.id },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    responseHandler.created(res, {
+      token,
+      ...user._doc,
+      id: user.id
+    });
+  } catch {
+    responseHandler.error(res);
+  }
 };
 
 const signin = async (req, res) => {
-    try{
-        const { username, password} = req.body;
+  try {
+    const { username, password } = req.body;
 
-        const user = await userModel.findOne({ username}).select("username password salt id displayName");
-        
-        if(!user) return responseHandler.badrequest(res, "Tài khoản này không tồn tại");
+    const user = await userModel.findOne({ username }).select("username password salt id displayName");
 
-        if(!user.validPassword(password)) return responseHandler.badrequest(res, "Sai mật khẩu");
+    if (!user) return responseHandler.badrequest(res, "User not exist");
 
-        const token = jsonwebtoken.sign(
-            { data: user.id},
-            process.env.TOKEN_SECRET,
-            { expiresIn: "24h"}
-        );
+    if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
 
-        user.password = undefined;
-        user.salt = undefined;
+    const token = jsonwebtoken.sign(
+      { data: user.id },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "24h" }
+    );
 
-        responseHandler.created(res, {
-            token,
-            ...user._doc,
-            id: user.id
-        });
-    }catch{
-        responseHandler.error(res);
-    }
+    user.password = undefined;
+    user.salt = undefined;
+
+    responseHandler.created(res, {
+      token,
+      ...user._doc,
+      id: user.id
+    });
+  } catch {
+    responseHandler.error(res);
+  }
 };
 
 const updatePassword = async (req, res) => {
-    try{
-        const { password, newPassword} = req.body;
+  try {
+    const { password, newPassword } = req.body;
 
-        const user = await userModel.findById(req.user.id).select("password id salt");
+    const user = await userModel.findById(req.user.id).select("password id salt");
 
-        if(!user) return responseHandler.unauthorize(res);
+    if (!user) return responseHandler.unauthorize(res);
 
-        if(!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
+    if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
 
-        user.setPassword(newPassword);
+    user.setPassword(newPassword);
 
-        await user.save();
+    await user.save();
 
-        responseHandler.ok(res);
-    }catch{
-        responseHandler.error(res);
-    }
+    responseHandler.ok(res);
+  } catch {
+    responseHandler.error(res);
+  }
 };
 
 const getInfo = async (req, res) => {
-    try{
-        const user = await userModel.findById(req.user.id);
+  try {
+    const user = await userModel.findById(req.user.id);
 
-        if(!user) return responseHandler.notfound(res);
+    if (!user) return responseHandler.notfound(res);
 
-        responseHandler.ok(res, user);
-    }catch{
-        responseHandler.error(res);
-    }
+    responseHandler.ok(res, user);
+  } catch {
+    responseHandler.error(res);
+  }
 };
 
 export default {
-    signup,
-    signin,
-    getInfo,
-    updatePassword
-}
+  signup,
+  signin,
+  getInfo,
+  updatePassword
+};
