@@ -21,10 +21,14 @@ import favoriteApi from "../api/modules/favorite.api";
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice";
 import { setAuthModalOpen } from "../redux/features/authModalSlice";
 import { addFavorite, removeFavorite } from "../redux/features/userSlice";
-import FavoriteBorderOutlined from "@mui/icons-material/FavoriteBorderOutlined";
 
 import CastSlide from "../components/common/CastSlide";
 import MediaVideosSlide from "../components/common/MediaVideosSlide";
+import BackdropSlide from "../components/common/BackdropSlide";
+import PosterSlide from "../components/common/PosterSlide";
+import RecommendSlide from "../components/common/RecommendSlide";
+import MediaSlide from "../components/common/MediaSlide";
+import MediaReview from "../components/common/MediaReview";
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
@@ -41,6 +45,7 @@ const MediaDetail = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getMedia = async () => {
       dispatch(setGlobalLoading(true));
       const { response, err } = await mediaApi.getDetail({ mediaType, mediaId });
@@ -56,7 +61,7 @@ const MediaDetail = () => {
     };
 
     getMedia();
-  }, [mediaType, mediaId, dispatch])
+  }, [mediaType, mediaId, dispatch]);
 
   const onFavoriteClick = async () => {
     if (!user) return dispatch(setAuthModalOpen(true));
@@ -86,7 +91,7 @@ const MediaDetail = () => {
     if (response) {
       dispatch(addFavorite(response));
       setIsFavorite(true);
-      toast.success("Đã thêm bộ phim yêu thích!");
+      toast.success("Add favorite success");
     }
   };
 
@@ -104,7 +109,7 @@ const MediaDetail = () => {
     if (response) {
       dispatch(removeFavorite(favorite));
       setIsFavorite(false);
-      toast.success("Đã xóa bộ phim yêu thích");
+      toast.success("Remove favorite success");
     }
   };
 
@@ -145,13 +150,11 @@ const MediaDetail = () => {
                   {/* title */}
                   <Typography
                     variant="h4"
-                    fontSize={{ xs: "2rem", md: "2rem", ld: "4rem" }}
+                    fontSize={{ xs: "2rem", md: "2rem", lg: "4rem" }}
                     fontWeight="700"
                     sx={{ ...uiConfigs.style.typoLines(2, "left") }}
                   >
-                    {`${media.title || media.name} ${mediaType === tmdbConfigs.
-                      mediaType.movie ? media.release_date.split("-")[0] : media.
-                        first_air_date.split("-")[0]}`}
+                    {`${media.title || media.name} ${mediaType === tmdbConfigs.mediaType.movie ? media.release_date.split("-")[0] : media.first_air_date.split("-")[0]}`}
                   </Typography>
                   {/* title */}
 
@@ -174,14 +177,14 @@ const MediaDetail = () => {
                   </Stack>
                   {/* rate and genres */}
 
-                  {/* overviewe */}
+                  {/* overview */}
                   <Typography
                     variant="body1"
                     sx={{ ...uiConfigs.style.typoLines(5) }}
                   >
                     {media.overview}
                   </Typography>
-                  {/* overviewe */}
+                  {/* overview */}
 
                   {/* buttons */}
                   <Stack direction="row" spacing={1}>
@@ -189,10 +192,10 @@ const MediaDetail = () => {
                       variant="text"
                       sx={{
                         width: "max-content",
-                        "& .MuiButton-starIcon": { marginRight: "0" }
+                        "& .MuiButon-starIcon": { marginRight: "0" }
                       }}
                       size="large"
-                      startIcon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderOutlined />}
+                      startIcon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
                       loadingPosition="start"
                       loading={onRequest}
                       onClick={onFavoriteClick}
@@ -228,6 +231,40 @@ const MediaDetail = () => {
             </Container>
           </div>
           {/* media videos */}
+
+          {/* media backdrop */}
+          {media.images.backdrops.length > 0 && (
+            <Container header="backdrops">
+              <BackdropSlide backdrops={media.images.backdrops} />
+            </Container>
+          )}
+          {/* media backdrop */}
+
+          {/* media posters */}
+          {media.images.posters.length > 0 && (
+            <Container header="posters">
+              <PosterSlide posters={media.images.posters} />
+            </Container>
+          )}
+          {/* media posters */}
+
+          {/* media reviews */}
+          <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />
+          {/* media reviews */}
+
+          {/* media recommendation */}
+          <Container header="you may also like">
+            {media.recommend.length > 0 && (
+              <RecommendSlide medias={media.recommend} mediaType={mediaType} />
+            )}
+            {media.recommend.length === 0 && (
+              <MediaSlide
+                mediaType={mediaType}
+                mediaCategory={tmdbConfigs.mediaCategory.top_rated}
+              />
+            )}
+          </Container>
+          {/* media recommendation */}
         </Box>
       </>
     ) : null
