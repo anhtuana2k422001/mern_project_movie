@@ -24,18 +24,18 @@ const SignupForm = ({ switchAuthState }) => {
     },
     validationSchema: Yup.object({
       username: Yup.string()
-        .min(8, "username minimum 8 characters")
-        .required("username is required"),
+        .min(8, "Tên đăng nhập tối thiểu 8 ký tự")
+        .required("Tên người dùng là bắt buộc"),
       password: Yup.string()
-        .min(8, "password minimum 8 characters")
-        .required("password is required"),
+        .min(8, "Mật khẩu tối thiểu 8 ký tự")
+        .required("Mật khẩu là bắt buộc"),
       displayName: Yup.string()
-        .min(8, "displayName minimum 8 characters")
-        .required("displayName is required"),
+        .min(8, "Tên hiển thị tối thiểu 8 ký tự")
+        .required("Tên hiển thị là bắt buộc"),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "confirmPassword not match")
-        .min(8, "confirmPassword minimum 8 characters")
-        .required("confirmPassword is required")
+        .oneOf([Yup.ref("password")], "Xác nhận mật khẩu mới không khớp")
+        .min(8, "Xác nhận mật khẩu tối thiểu 8 ký tự")
+        .required("Xác nhận mật khẩu là bắt buộc")
     }),
     onSubmit: async values => {
       setErrorMessage(undefined);
