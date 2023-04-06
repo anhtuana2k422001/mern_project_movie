@@ -22,9 +22,9 @@ router.post(
     body("content")
     .exists().withMessage("content là bắt buộc")
     .isLength({min: 8}).withMessage("content không thể để trống"),
-    body("mediatype")
-        .exists().withMessage("mediatype là bắt buộc")
-        .custom(type => ["movie", "tv"].includes(type)).withMessage("mediatype invalid"),
+    body("mediaType")
+        .exists().withMessage("mediaType là bắt buộc")
+        .custom(type => ["movie", "tv"].includes(type)).withMessage("mediaType invalid"),
         body("mediaTitle")
         .exists().withMessage("mediaTitle là bắt buộc"),
         body("mediaPoster")
