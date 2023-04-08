@@ -10,7 +10,7 @@ const themeConfigs = {
   custom: ({ mode }) => {
     const customPalette = mode === themeModes.dark ? {
       primary: {
-        main: "#ff0000",
+        main: "#33a37f",
         contrastText: "#ffffff"
       },
       secondary: {
@@ -23,7 +23,7 @@ const themeConfigs = {
       }
     } : {
       primary: {
-        main: "#ff0000"
+        main: "#33a37f"
       },
       secondary: {
         main: "#f44336"

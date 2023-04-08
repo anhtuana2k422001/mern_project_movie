@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "swagger-node-express": "^2.1.3"
+  }
+}

@@ -91,7 +91,7 @@ const MediaDetail = () => {
     if (response) {
       dispatch(addFavorite(response));
       setIsFavorite(true);
-      toast.success("Add favorite success");
+      toast.success("Thêm vào danh sách yêu thích thành công");
     }
   };
 
@@ -109,7 +109,7 @@ const MediaDetail = () => {
     if (response) {
       dispatch(removeFavorite(favorite));
       setIsFavorite(false);
-      toast.success("Remove favorite success");
+      toast.success("Xóa vào danh sách yêu thích thành công");
     }
   };
 
@@ -207,7 +207,7 @@ const MediaDetail = () => {
                       startIcon={<PlayArrowIcon />}
                       onClick={() => videoRef.current.scrollIntoView()}
                     >
-                      watch now
+                      Xem ngay
                     </Button>
                   </Stack>
                   {/* buttons */}
@@ -234,7 +234,7 @@ const MediaDetail = () => {
 
           {/* media backdrop */}
           {media.images.backdrops.length > 0 && (
-            <Container header="backdrops">
+            <Container header="Ảnh nổi bật">
               <BackdropSlide backdrops={media.images.backdrops} />
             </Container>
           )}
@@ -242,7 +242,7 @@ const MediaDetail = () => {
 
           {/* media posters */}
           {media.images.posters.length > 0 && (
-            <Container header="posters">
+            <Container header="Thiết kế">
               <PosterSlide posters={media.images.posters} />
             </Container>
           )}
@@ -253,7 +253,7 @@ const MediaDetail = () => {
           {/* media reviews */}
 
           {/* media recommendation */}
-          <Container header="you may also like">
+          <Container header="Bạn cũng có thể thích">
             {media.recommend.length > 0 && (
               <RecommendSlide medias={media.recommend} mediaType={mediaType} />
             )}
