@@ -63,7 +63,7 @@ const ReviewItem = ({ review, onRemoved }) => {
                 width: "max-content"
               }}
             >
-              remove
+              Xóa
             </LoadingButton>
           )}
         </Stack>
@@ -147,7 +147,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
             </Box>
           ))}
           {filteredReviews.length < listReviews.length && (
-            <Button onClick={onLoadMore}>load more</Button>
+            <Button onClick={onLoadMore}>Xem thêm</Button>
           )}
         </Stack>
         {user && (
@@ -176,7 +176,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
                   loading={onRequest}
                   onClick={onAddReview}
                 >
-                  post
+                  Đánh giá
                 </LoadingButton>
               </Stack>
             </Stack>

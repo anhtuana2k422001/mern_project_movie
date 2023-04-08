@@ -48,7 +48,7 @@ const SignupForm = ({ switchAuthState }) => {
         signinForm.resetForm();
         dispatch(setUser(response));
         dispatch(setAuthModalOpen(false));
-        toast.success("Sign in success");
+        toast.success("Đăng ký thành công");
       }
 
       if (err) setErrorMessage(err.message);
